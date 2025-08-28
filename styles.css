@@ -90,21 +90,6 @@ body {
     font-size: 18px;
 }
 
-.close-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
-}
-
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
 #canvas.fullscreen {
     position: fixed !important;
     top: 0 !important;
