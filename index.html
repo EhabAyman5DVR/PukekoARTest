@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
+  <title>Sigma-Fit-Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Model Viewer CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@google/model-viewer@^4.1.0/dist/model-viewer.css">
+  <!-- Model Viewer JS -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer@^4.1.0/dist/model-viewer.min.js"></script>
+</head>
+
+<body>
+  <!-- Main Container -->
+  <div class="app-container">
+    <!-- Model Preview Section -->
+    <div class="model-preview-section">
+      <h2>Try-On Experience</h2>
+      
+      <!-- Model Container -->
+      <div class="model-container">
+        <h3>Choose Your Style</h3>
+        <model-viewer 
+          id="shoe-viewer"
+          src="/ShoePOC/models/1.glb"
+          alt="Shoe 1"
+          camera-controls
+          auto-rotate
+          shadow-intensity="1"
+          exposure="0.75"
+          disable-pan="true"
+          scale="1 1 1"
+          shadow-softness="0"
+          camera-orbit="45deg 55deg 2.5m"
+          min-camera-orbit="auto auto 1m"
+          max-camera-orbit="auto auto 10m"
+          interaction-prompt="auto"
+          loading="eager"
+          ar
+          ar-modes="scene-viewer quick-look webxr"
+          ar-scale="auto"
+          ar-placement="floor">
+        </model-viewer>
+
+        <!-- Carousel for variants -->
+        <div class="carousel">
+          <button class="variant-btn" data-src="/ShoePOC/models/1.glb" aria-label="Black Shoe" aria-pressed="true">
+            <span class="icon" style="background: #222;"></span>
+          </button>
+          <button class="variant-btn" data-src="/ShoePOC/models/2.glb" aria-label="White Shoe">
+            <span class="icon" style="background: #fff; border: 1px solid #ccc;"></span>
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button id="try-on-btn" class="action-btn primary">
+            📱 Try On with Camera
+          </button>
+          <button id="ar-btn" class="action-btn secondary">
+            👟 View in AR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CameraKit Section (Hidden by default) -->
+    <div id="camera-section" class="camera-section" style="display: none;">
+      <div class="camera-header">
+        <button id="close-camera-btn" class="close-btn">✕</button>
+        <h3>Camera Try-On</h3>
+      </div>
+      <canvas id="canvas" class="fullscreen"></canvas>
+      <section id="video-container" style="display: none">
+        <video loop controls autoplay id="video"></video>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
