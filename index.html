@@ -12,14 +12,21 @@
   <div class="app-container">
     <!-- CameraKit Section (Hidden by default) -->
     <div id="camera-section" class="camera-section" style="display: block;">
-      <canvas id="canvas" class="fullscreen"></canvas>
+      <canvas id="canvas"></canvas>
+      
+      <!-- Photo Display Canvas (Hidden by default) -->
+      <canvas id="photo-canvas" style="display: none;"></canvas>
       
       <!-- Screenshot Button -->
       <button id="screenshot-btn" class="screenshot-btn" title="Take Screenshot">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="currentColor"/>
-          <path d="M9 2L7.17 4H4C2.9 4 2 4.9 2 6V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V6C22 4.9 21.1 4 20 4H16.83L15 2H9ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17Z" fill="currentColor"/>
-        </svg>
+      </button>
+      
+      <!-- Download Button (Hidden by default) -->
+      <button id="download-btn" class="download-btn" style="display: none;">
+      </button>
+      
+      <!-- Close Button (Hidden by default) -->
+      <button id="close-btn" class="close-btn" style="display: none;">
       </button>
       
       <section id="video-container" style="display: none">

@@ -18,45 +18,96 @@ const liveRenderTarget = document.getElementById(
   'canvas'
 ) as HTMLCanvasElement;
 
-// Screenshot functionality
-function takeScreenshot() {
+// Photo capture functionality
+let capturedImageData: string | null = null;
+
+function capturePhoto() {
   if (!liveRenderTarget) {
     console.error('Canvas not found');
     return;
   }
 
   try {
-    // Create a temporary canvas to handle the mirror effect
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
+    // Capture the current canvas content
+    capturedImageData = liveRenderTarget.toDataURL('image/png');
     
-    if (!tempCtx) {
-      console.error('Could not get 2D context');
-      return;
-    }
-
-    // Set dimensions
-    tempCanvas.width = liveRenderTarget.width;
-    tempCanvas.height = liveRenderTarget.height;
-
-    // Draw the canvas content (which is already mirrored)
-    tempCtx.drawImage(liveRenderTarget, 0, 0);
-
-    // Convert to blob and download
-    tempCanvas.toBlob((blob) => {
-      if (blob) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `pukeko-ar-screenshot-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.png`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+    // Get the photo canvas and display the captured photo
+    const photoCanvas = document.getElementById('photo-canvas') as HTMLCanvasElement;
+    if (photoCanvas) {
+      // Set canvas dimensions to match the captured image
+      photoCanvas.width = liveRenderTarget.width;
+      photoCanvas.height = liveRenderTarget.height;
+      
+      // Get the 2D context and draw the captured photo
+      const ctx = photoCanvas.getContext('2d');
+      if (ctx) {
+        const img = new Image();
+        img.onload = () => {
+          // Clear the canvas and draw the captured image
+          ctx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
+          ctx.drawImage(img, 0, 0);
+          
+          // Show the photo canvas, hide the main canvas
+          photoCanvas.style.display = 'block';
+          liveRenderTarget.style.display = 'none';
+        };
+        img.src = capturedImageData;
       }
-    }, 'image/png');
+    }
+    
+    // Hide capture button, show download and close buttons
+    const screenshotBtn = document.getElementById('screenshot-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const closeBtn = document.getElementById('close-btn');
+    
+    if (screenshotBtn) screenshotBtn.style.display = 'none';
+    if (downloadBtn) downloadBtn.style.display = 'flex';
+    if (closeBtn) closeBtn.style.display = 'flex';
+    
   } catch (error) {
-    console.error('Failed to take screenshot:', error);
+    console.error('Failed to capture photo:', error);
+  }
+}
+
+function downloadPhoto() {
+  if (capturedImageData) {
+    const a = document.createElement('a');
+    a.href = capturedImageData;
+    a.download = `pukeko-ar-photo-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
+function closePhoto() {
+  // Clear the captured image
+  capturedImageData = null;
+  
+  // Hide photo canvas, show main canvas
+  const photoCanvas = document.getElementById('photo-canvas');
+  if (photoCanvas) {
+    photoCanvas.style.display = 'none';
+  }
+  
+  if (liveRenderTarget) {
+    liveRenderTarget.style.display = 'block';
+  }
+  
+  // Hide download and close buttons
+  const downloadBtn = document.getElementById('download-btn');
+  const closeBtn = document.getElementById('close-btn');
+  
+  if (downloadBtn) downloadBtn.style.display = 'none';
+  if (closeBtn) closeBtn.style.display = 'none';
+  
+  // Show capture button again
+  const screenshotBtn = document.getElementById('screenshot-btn');
+  if (screenshotBtn) screenshotBtn.style.display = 'flex';
+  
+  // Restart the camera with lens
+  if (currentSession && isCameraActive) {
+    currentSession.play();
   }
 }
 
@@ -101,10 +152,21 @@ document.addEventListener('DOMContentLoaded', () => {
   //initCarousel();
    initCameraKit();
 
-   // Add screenshot button event listener
+   // Add button event listeners
    const screenshotBtn = document.getElementById('screenshot-btn');
+   const downloadBtn = document.getElementById('download-btn');
+   const closeBtn = document.getElementById('close-btn');
+   
    if (screenshotBtn) {
-     screenshotBtn.addEventListener('click', takeScreenshot);
+     screenshotBtn.addEventListener('click', capturePhoto);
+   }
+   
+   if (downloadBtn) {
+     downloadBtn.addEventListener('click', downloadPhoto);
+   }
+   
+   if (closeBtn) {
+     closeBtn.addEventListener('click', closePhoto);
    }
 });
 
