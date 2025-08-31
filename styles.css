@@ -99,7 +99,7 @@ body {
     display: block !important;
     background: black !important;
     z-index: 1 !important;
-    transform: none !important;
+    transform: scaleX(-1) !important;
     aspect-ratio: unset !important;
     max-width: none !important;
     max-height: none !important;
@@ -109,7 +109,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scaleX(-1);
     aspect-ratio: 9 / 16;
     max-width: 100%;
     max-height: 100%;
@@ -366,4 +366,66 @@ model-viewer button[slot="ar-button"]:hover {
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Screenshot Button Styling */
+.screenshot-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    backdrop-filter: blur(10px);
+}
+
+.screenshot-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.screenshot-btn:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.screenshot-btn svg {
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.screenshot-btn:hover svg {
+    color: #667eea;
+}
+
+/* Responsive adjustments for screenshot button */
+@media (max-width: 768px) {
+    .screenshot-btn {
+        bottom: 25px;
+        width: 55px;
+        height: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .screenshot-btn {
+        bottom: 20px;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .screenshot-btn svg {
+        width: 20px;
+        height: 20px;
+    }
 }
