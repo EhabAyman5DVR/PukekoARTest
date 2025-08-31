@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
   <title>Pukeko-AR</title>
-  <script type="module" crossorigin src="/PukekoAR/assets/index-BAHzb1Qv.js"></script>
-  <link rel="stylesheet" crossorigin href="/PukekoAR/assets/index-DJxxZjSp.css">
+  <script type="module" crossorigin src="/PukekoAR/assets/index-3THKd8v4.js"></script>
+  <link rel="stylesheet" crossorigin href="/PukekoAR/assets/index-BUZZSa7Z.css">
 </head>
 
 <body>
@@ -14,6 +14,9 @@
     <!-- CameraKit Section (Hidden by default) -->
     <div id="camera-section" class="camera-section" style="display: block;">
       <canvas id="canvas"></canvas>
+      
+      <!-- Photo Display Canvas (Hidden by default) -->
+      <canvas id="photo-canvas" style="display: none;"></canvas>
       
       <!-- Screenshot Button -->
       <button id="screenshot-btn" class="screenshot-btn" title="Take Screenshot">
@@ -25,20 +28,10 @@
       
       <!-- Download Button (Hidden by default) -->
       <button id="download-btn" class="download-btn" style="display: none;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7,10 12,15 17,10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        Download
       </button>
       
       <!-- Close Button (Hidden by default) -->
       <button id="close-btn" class="close-btn" style="display: none;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
       </button>
       
       <section id="video-container" style="display: none">
