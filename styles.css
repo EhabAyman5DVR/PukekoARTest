@@ -103,12 +103,12 @@ body.splash-hidden::before {
 
 .home-cards {
     display: grid;
-    gap: 16px;
+    gap: 50px;
     top: 70px;
    /* position: relative;*/
 }
 #ar-btn {
-    position: relative;
+   /* position: relative;*/
     top: 50px;
 }
 
