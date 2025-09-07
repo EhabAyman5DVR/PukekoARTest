@@ -149,8 +149,14 @@ async function setCameraKitSource(
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  
   //initCarousel();
    initCameraKit();
+
+   // Splash fade-out after 3 seconds using body class
+   setTimeout(() => {
+     document.body.classList.add('splash-hidden');
+   }, 3000);
 
    // Add button event listeners
    const screenshotBtn = document.getElementById('screenshot-btn');

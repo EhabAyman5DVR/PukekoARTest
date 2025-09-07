@@ -14,6 +14,27 @@ body {
     overflow-y: auto;
 }
 
+/* CSS-only splash using body::before */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* fallback */
+    height: 100dvh; /* mobile browsers full viewport */
+    background: url('/Splash.png') center center no-repeat;
+    background-size: cover;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 1s ease;
+    pointer-events: none;
+}
+
+body.splash-hidden::before {
+    opacity: 0;
+}
+
 /* Main App Container */
 .app-container {
     display: flex;
