@@ -149,31 +149,49 @@ async function setCameraKitSource(
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // Splash fade-out after 3 seconds using body class, then show home
+  setTimeout(() => {
+    document.body.classList.add('splash-hidden');
+    const homeSection = document.getElementById('home-section');
+    if (homeSection) homeSection.style.display = 'flex';
+  }, 3000);
+
+  // Wire up home buttons
+  const arBtn = document.getElementById('ar-btn');
+  const qaBtn = document.getElementById('qa-btn');
+  const homeSection = document.getElementById('home-section');
+  const cameraSection = document.getElementById('camera-section');
+
+  if (arBtn && homeSection && cameraSection) {
+    arBtn.addEventListener('click', async () => {
+      homeSection.style.display = 'none';
+      cameraSection.style.display = 'flex';
+      await initCameraKit();
+    });
+  }
+
+  if (qaBtn) {
+    qaBtn.addEventListener('click', () => {
+      alert('Q&A coming soon');
+    });
+  }
+
+  // Add capture/download/close listeners
+  const screenshotBtn = document.getElementById('screenshot-btn');
+  const downloadBtn = document.getElementById('download-btn');
+  const closeBtn = document.getElementById('close-btn');
   
-  //initCarousel();
-   initCameraKit();
-
-   // Splash fade-out after 3 seconds using body class
-   setTimeout(() => {
-     document.body.classList.add('splash-hidden');
-   }, 3000);
-
-   // Add button event listeners
-   const screenshotBtn = document.getElementById('screenshot-btn');
-   const downloadBtn = document.getElementById('download-btn');
-   const closeBtn = document.getElementById('close-btn');
-   
-   if (screenshotBtn) {
-     screenshotBtn.addEventListener('click', capturePhoto);
-   }
-   
-   if (downloadBtn) {
-     downloadBtn.addEventListener('click', downloadPhoto);
-   }
-   
-   if (closeBtn) {
-     closeBtn.addEventListener('click', closePhoto);
-   }
+  if (screenshotBtn) {
+    screenshotBtn.addEventListener('click', capturePhoto);
+  }
+  
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', downloadPhoto);
+  }
+  
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closePhoto);
+  }
 });
 
 

@@ -10,8 +10,22 @@
 <body>
   <!-- Main Container -->
   <div class="app-container">
+    <!-- Home Section -->
+    <div id="home-section" class="home-section" style="display: flex;">
+      <div class="home-content">
+        <img class="home-heading" src="/ChooseOption.png" alt="Choose an option">
+        <div class="home-cards">
+          <button id="qa-btn" class="home-card">
+            <img src="/Q&A.png" alt="Pukeko Interactive Q&A" />
+          </button>
+          <button id="ar-btn" class="home-card">
+            <img src="/AR Selfie.png" alt="AR Selfie with Pukeko" />
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- CameraKit Section (Hidden by default) -->
-    <div id="camera-section" class="camera-section" style="display: block;">
+    <div id="camera-section" class="camera-section" style="display: none;">
       <canvas id="canvas"></canvas>
       
       <!-- Photo Display Canvas (Hidden by default) -->
