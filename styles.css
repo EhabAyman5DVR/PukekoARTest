@@ -92,6 +92,9 @@ body.splash-hidden::before {
     z-index: 900;
 }
 
+/* Ensure splash always covers home until hidden */
+body:not(.splash-hidden) #home-section { display: none !important; }
+
 .home-content {
     width: 100%;
     max-width: 520px;
@@ -108,8 +111,29 @@ body.splash-hidden::before {
    /* position: relative;*/
 }
 #ar-btn {
-   /* position: relative;*/
-    top: 50px;
+   position: fixed;
+   left: 50%;
+   transform: translateX(-50%);
+   bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(16px, 6vh, 80px));
+   width: min(520px, 90vw);
+   z-index: 906;
+}
+
+/* Pin Q&A button centered above AR with space below heading */
+#qa-btn {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: clamp(80px, 18vh, 140px);
+    width: min(520px, 90vw);
+    z-index: 906;
+}
+
+@media (max-height: 780px) {
+    .home-card { width: min(440px, 85vw); }
+}
+@media (max-height: 700px) {
+    .home-card { width: min(380px, 82vw); }
 }
 
 /* Heading image above cards */
@@ -135,12 +159,25 @@ body.splash-hidden::before {
     cursor: pointer;
    /* box-shadow: 0 6px 16px rgba(0,0,0,0.25);*/
     transition: transform .2s ease, box-shadow .2s ease;
+    width: min(520px, 90vw);
+    margin: 0 auto;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-.home-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-.home-card:active { transform: translateY(0); }
+.home-card:hover { transform: scale(0.98); }
+.home-card:active { transform:  scale(0.96); }
 
-.home-card img { display: block; width: 100%; height: auto; }
+.home-card:focus,
+.home-card:focus-visible,
+.home-card:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.home-card img { display: block; width: 100%; height: auto; max-height: 30vh; object-fit: contain; }
 
 
 
