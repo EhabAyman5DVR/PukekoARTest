@@ -18,6 +18,40 @@ const liveRenderTarget = document.getElementById(
   'canvas'
 ) as HTMLCanvasElement;
 
+// Zones UI functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const qaButton = document.getElementById('qa-btn');
+  const zonesSection = document.getElementById('zones-section');
+  const zonesCloseBtn = document.getElementById('zones-close-btn');
+  const homeSection = document.getElementById('home-section');
+
+  // Show zones when Q&A button is clicked
+  qaButton?.addEventListener('click', () => {
+    if (homeSection && zonesSection) {
+      homeSection.style.display = 'none';
+      zonesSection.style.display = 'flex';
+    }
+  });
+
+  // Hide zones when close button is clicked
+  zonesCloseBtn?.addEventListener('click', () => {
+    if (homeSection && zonesSection) {
+      zonesSection.style.display = 'none';
+      homeSection.style.display = 'flex';
+    }
+  });
+
+  // Handle zone button clicks
+  const zoneButtons = document.querySelectorAll('.zone-btn');
+  zoneButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const zone = (e.currentTarget as HTMLElement).dataset.zone;
+      console.log(`Selected zone: ${zone}`);
+      // Add zone-specific functionality here
+    });
+  });
+});
+
 // Photo capture functionality
 let capturedImageData: string | null = null;
 
@@ -158,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Wire up home buttons
   const arBtn = document.getElementById('ar-btn');
-  const qaBtn = document.getElementById('qa-btn');
   const homeSection = document.getElementById('home-section');
   const cameraSection = document.getElementById('camera-section');
 
@@ -167,12 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
       homeSection.style.display = 'none';
       cameraSection.style.display = 'flex';
       await initCameraKit();
-    });
-  }
-
-  if (qaBtn) {
-    qaBtn.addEventListener('click', () => {
-      alert('Q&A coming soon');
     });
   }
 

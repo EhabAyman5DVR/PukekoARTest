@@ -43,6 +43,80 @@ body.splash-hidden::before {
     background: #223d58;
 }
 
+/* Zones Section */
+.zones-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #223d58;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.zones-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    padding: 5px;
+}
+
+.zone-btn {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* Makes the button square */
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.zone-btn img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.zone-btn span {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.zone-btn:hover img {
+    transform: scale(1.05);
+}
+
+/* Close button for zones */
+.zones-section .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: url('/CloseBtn.png') center/contain no-repeat;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
 /* Model Preview Section */
 .model-preview-section {
     flex: 1;
