@@ -157,16 +157,14 @@ body.splash-hidden::before {
 /* Home Section */
 .home-section {
     position: fixed;
-    /*top: -100px;*/
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: url('/Home.jpg') center center no-repeat;
-    background-size: contain;
+    background: #1B324A;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    /*padding: 24px;*/
+    padding: 40px 20px;
     z-index: 900;
 }
 
@@ -176,73 +174,64 @@ body:not(.splash-hidden) #home-section { display: none !important; }
 .home-content {
     width: 100%;
     max-width: 520px;
-    padding: 35px;
-    top: 20px;
-    /*position: relative;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
 }
 
+.home-heading {
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+.home-heading img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
 
 .home-cards {
-    display: grid;
-    gap: 50px;
-    top: 70px;
-   /* position: relative;*/
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
 }
-#ar-btn {
-   position: fixed;
-   left: 50%;
-   transform: translateX(-50%);
-   bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(16px, 6vh, 80px));
-   width: min(520px, 90vw);
-   z-index: 906;
-}
-
-/* Pin Q&A button centered above AR with space below heading */
-#qa-btn {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: clamp(80px, 18vh, 140px);
-    width: min(520px, 90vw);
-    z-index: 906;
-}
-
-@media (max-height: 780px) {
-    .home-card { width: min(440px, 85vw); }
-}
-@media (max-height: 700px) {
-    .home-card { width: min(380px, 82vw); }
-}
-
-/* Heading image above cards */
-.home-heading {
-    display: block;
-    width: 90%;
-    max-width: 520px;
-    height: auto;
-    position: fixed;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 905;
-}
-
 
 .home-card {
-    padding: 0;
-    background: rgba(0,0,0,0);
+    width: 100%;
+    background: transparent;
     border: none;
     border-radius: 16px;
-    overflow: hidden;
+    padding: 0;
+    margin: 0;
     cursor: pointer;
-   /* box-shadow: 0 6px 16px rgba(0,0,0,0.25);*/
-    transition: transform .2s ease, box-shadow .2s ease;
-    width: min(520px, 90vw);
-    margin: 0 auto;
+    transition: transform 0.2s ease;
     outline: none;
     -webkit-tap-highlight-color: transparent;
-    -webkit-appearance: none;
-    appearance: none;
+}
+
+.home-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+}
+
+.home-card:hover {
+    transform: scale(0.98);
+}
+
+@media (max-height: 600px) {
+    .home-section {
+        padding: 20px;
+    }
+    .home-heading {
+        margin-bottom: 30px;
+    }
+    .home-cards {
+        gap: 20px;
+    }
 }
 
 .home-card:hover { transform: scale(0.98); }
