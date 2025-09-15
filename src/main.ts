@@ -12,7 +12,7 @@ import {
 let currentSession: CameraKitSession;
 let mediaStream: MediaStream;
 let isCameraActive = false;
-
+let { LensesGroup }: any = {}; // Replace 'any' with the appropriate type if available
 const liveRenderTarget = document.getElementById(
   'canvas'
 ) as HTMLCanvasElement;
@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     button.addEventListener('click', (e) => {
       const zone = (e.currentTarget as HTMLElement).dataset.zone;
       console.log(`Selected zone: ${zone}`);
-
+      currentSession.applyLens(LensesGroup.lenses[1]);
+       setCameraKitSource(currentSession);
       // Add zone-specific functionality here
     });
   });
@@ -154,12 +155,12 @@ async function initCameraKit() {
   try {
     const cameraKit = await bootstrapCameraKit({ apiToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzU2NDAyNDMwLCJzdWIiOiI1NzUwMjVjOS0xYjBlLTQ5ZjgtOWMzMy1mM2ZhN2M5ZDE0YTh-UFJPRFVDVElPTn41MDQ2Njc1Mi01N2MwLTQ5MGUtODc3MS1jYTA5NjNlZDIxNjEifQ.3sbRD47P17pMhnb3Sl5_12XA0xtSeBglslHFZNxr5r8' });
     currentSession = await cameraKit.createSession({ liveRenderTarget });
-    const { lenses } = await cameraKit.lensRepository.loadLensGroups(['c2b104f9-6b4e-4d68-bd16-6ff2c95feaeb']);
-
-    currentSession.applyLens(lenses[0]).then(() => {
+    { LensesGroup = await cameraKit.lensRepository.loadLensGroups(['c2b104f9-6b4e-4d68-bd16-6ff2c95feaeb']) };
+    console.log(LensesGroup.lenses);
+    currentSession.applyLens(LensesGroup.lenses[0]).then(() => {
       console.log('Lens applied');
     });
-    currentSession.applyLens(lenses[1]).then(() => {
+    currentSession.applyLens(LensesGroup.lenses[1]).then(() => {
       // Hide loader immediately and start splash fade-out
       hideSplashLoader();
       document.body.classList.add('splash-hidden');
@@ -206,6 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
       homeSection.style.display = 'none';
       cameraSection.style.display = 'flex';
       // await initCameraKit();
+      currentSession.applyLens(LensesGroup.lenses[0]);
+      await setCameraKitSource(currentSession);
+
     });
   }
 
