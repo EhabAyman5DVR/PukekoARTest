@@ -14,7 +14,7 @@ body {
     overflow-y: auto;
 }
 
-/* CSS-only splash using body::before */
+/* Splash screen and loader styles */
 body::before {
     content: "";
     position: fixed;
@@ -29,6 +29,23 @@ body::before {
     opacity: 1;
     transition: opacity 1s ease;
     pointer-events: none;
+}
+
+/* Splash loader styles */
+#splash-loader {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 100vw;
+    z-index: 2001;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+}
+
+#splash-loader img {
+    width: 80px;
+    height: 80px;
 }
 
 body.splash-hidden::before {

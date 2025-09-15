@@ -1,4 +1,3 @@
-
 import {
   bootstrapCameraKit,
   CameraKitSession,
@@ -19,12 +18,14 @@ const liveRenderTarget = document.getElementById(
 ) as HTMLCanvasElement;
 
 // Zones UI functionality
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const qaButton = document.getElementById('qa-btn');
   const zonesSection = document.getElementById('zones-section');
   const zonesCloseBtn = document.getElementById('zones-close-btn');
   const homeSection = document.getElementById('home-section');
 
+  // Initialize Camera Kit
+  await initCameraKit();
   // Show zones when Q&A button is clicked
   qaButton?.addEventListener('click', () => {
     if (homeSection && zonesSection) {
@@ -47,9 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', (e) => {
       const zone = (e.currentTarget as HTMLElement).dataset.zone;
       console.log(`Selected zone: ${zone}`);
+
       // Add zone-specific functionality here
     });
   });
+
 });
 
 // Photo capture functionality
@@ -64,14 +67,14 @@ function capturePhoto() {
   try {
     // Capture the current canvas content
     capturedImageData = liveRenderTarget.toDataURL('image/png');
-    
+
     // Get the photo canvas and display the captured photo
     const photoCanvas = document.getElementById('photo-canvas') as HTMLCanvasElement;
     if (photoCanvas) {
       // Set canvas dimensions to match the captured image
       photoCanvas.width = liveRenderTarget.width;
       photoCanvas.height = liveRenderTarget.height;
-      
+
       // Get the 2D context and draw the captured photo
       const ctx = photoCanvas.getContext('2d');
       if (ctx) {
@@ -80,7 +83,7 @@ function capturePhoto() {
           // Clear the canvas and draw the captured image
           ctx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
           ctx.drawImage(img, 0, 0);
-          
+
           // Show the photo canvas, hide the main canvas
           photoCanvas.style.display = 'block';
           liveRenderTarget.style.display = 'none';
@@ -88,16 +91,16 @@ function capturePhoto() {
         img.src = capturedImageData;
       }
     }
-    
+
     // Hide capture button, show download and close buttons
     const screenshotBtn = document.getElementById('screenshot-btn');
     const downloadBtn = document.getElementById('download-btn');
     const closeBtn = document.getElementById('close-btn');
-    
+
     if (screenshotBtn) screenshotBtn.style.display = 'none';
     if (downloadBtn) downloadBtn.style.display = 'flex';
     if (closeBtn) closeBtn.style.display = 'flex';
-    
+
   } catch (error) {
     console.error('Failed to capture photo:', error);
   }
@@ -117,28 +120,28 @@ function downloadPhoto() {
 function closePhoto() {
   // Clear the captured image
   capturedImageData = null;
-  
+
   // Hide photo canvas, show main canvas
   const photoCanvas = document.getElementById('photo-canvas');
   if (photoCanvas) {
     photoCanvas.style.display = 'none';
   }
-  
+
   if (liveRenderTarget) {
     liveRenderTarget.style.display = 'block';
   }
-  
+
   // Hide download and close buttons
   const downloadBtn = document.getElementById('download-btn');
   const closeBtn = document.getElementById('close-btn');
-  
+
   if (downloadBtn) downloadBtn.style.display = 'none';
   if (closeBtn) closeBtn.style.display = 'none';
-  
+
   // Show capture button again
   const screenshotBtn = document.getElementById('screenshot-btn');
   if (screenshotBtn) screenshotBtn.style.display = 'flex';
-  
+
   // Restart the camera with lens
   if (currentSession && isCameraActive) {
     currentSession.play();
@@ -146,27 +149,35 @@ function closePhoto() {
 }
 
 async function initCameraKit() {
-  if (isCameraActive) return; // Prevent multiple initializations
-  
-  try {
-    const cameraKit = await bootstrapCameraKit({ apiToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzU2NDAyNDMwLCJzdWIiOiI1NzUwMjVjOS0xYjBlLTQ5ZjgtOWMzMy1mM2ZhN2M5ZDE0YTh-UFJPRFVDVElPTn41MDQ2Njc1Mi01N2MwLTQ5MGUtODc3MS1jYTA5NjNlZDIxNjEifQ.3sbRD47P17pMhnb3Sl5_12XA0xtSeBglslHFZNxr5r8'});
-    currentSession = await cameraKit.createSession({ liveRenderTarget });
-    const lenses = await cameraKit.lensRepository.loadLens('ff807fbc-e949-42b4-a54b-47501745d4f2',
-      'c352182f-89be-4007-b24c-8fcf50c56d56'
-    );
+  // if (isCameraActive) return; // Prevent multiple initializations
 
-    currentSession.applyLens(lenses);
+  try {
+    const cameraKit = await bootstrapCameraKit({ apiToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzU2NDAyNDMwLCJzdWIiOiI1NzUwMjVjOS0xYjBlLTQ5ZjgtOWMzMy1mM2ZhN2M5ZDE0YTh-UFJPRFVDVElPTn41MDQ2Njc1Mi01N2MwLTQ5MGUtODc3MS1jYTA5NjNlZDIxNjEifQ.3sbRD47P17pMhnb3Sl5_12XA0xtSeBglslHFZNxr5r8' });
+    currentSession = await cameraKit.createSession({ liveRenderTarget });
+    const { lenses } = await cameraKit.lensRepository.loadLensGroups(['c2b104f9-6b4e-4d68-bd16-6ff2c95feaeb']);
+
+    currentSession.applyLens(lenses[0]).then(() => {
+      console.log('Lens applied');
+    });
+    currentSession.applyLens(lenses[1]).then(() => {
+      // Hide loader immediately and start splash fade-out
+      hideSplashLoader();
+      document.body.classList.add('splash-hidden');
+      const homeSection = document.getElementById('home-section');
+      if (homeSection) homeSection.style.display = 'flex';
+    });
 
     // Remove fullscreen class after lens is loaded
     liveRenderTarget.classList.remove('fullscreen');
 
-    await setCameraKitSource(currentSession);
-    isCameraActive = true;
+    //await setCameraKitSource(currentSession);
+    //isCameraActive = true;
   } catch (error) {
     console.error('Failed to initialize CameraKit:', error);
   }
 }
 
+//@ts-ignore
 async function setCameraKitSource(
   session: CameraKitSession) {
 
@@ -183,12 +194,7 @@ async function setCameraKitSource(
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // Splash fade-out after 3 seconds using body class, then show home
-  setTimeout(() => {
-    document.body.classList.add('splash-hidden');
-    const homeSection = document.getElementById('home-section');
-    if (homeSection) homeSection.style.display = 'flex';
-  }, 3000);
+
 
   // Wire up home buttons
   const arBtn = document.getElementById('ar-btn');
@@ -199,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     arBtn.addEventListener('click', async () => {
       homeSection.style.display = 'none';
       cameraSection.style.display = 'flex';
-      await initCameraKit();
+      // await initCameraKit();
     });
   }
 
@@ -207,18 +213,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const screenshotBtn = document.getElementById('screenshot-btn');
   const downloadBtn = document.getElementById('download-btn');
   const closeBtn = document.getElementById('close-btn');
-  
+
   if (screenshotBtn) {
     screenshotBtn.addEventListener('click', capturePhoto);
   }
-  
+
   if (downloadBtn) {
     downloadBtn.addEventListener('click', downloadPhoto);
   }
-  
+
   if (closeBtn) {
     closeBtn.addEventListener('click', closePhoto);
   }
 });
+
+// Function to hide the splash loader
+function hideSplashLoader() {
+  const loader = document.getElementById('splash-loader');
+  if (loader) loader.style.display = 'none';
+}
+
+// No longer need the transitionend listener since we hide the loader immediately
 
 
