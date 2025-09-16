@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
   <title>WaterCare - Pukeko AR</title>
-  <script type="module" crossorigin src="/PukekoARTest/assets/index-WEz-514h.js"></script>
-  <link rel="stylesheet" crossorigin href="/PukekoARTest/assets/index-9yJDG48p.css">
+  <script type="module" crossorigin src="/PukekoARTest/assets/index-ozFkmqJX.js"></script>
+  <link rel="stylesheet" crossorigin href="/PukekoARTest/assets/index-FLhZVGaN.css">
 </head>
 
 <body>
@@ -55,8 +55,17 @@
       </div>
     </div>
 
-    <!-- CameraKit Section (Hidden by default) -->
-    <div id="camera-section" class="camera-section" style="display: none;">
+    <!-- Zone Content Section (Hidden by default) -->
+    <div id="zone-content-section" class="zone-content-section" style="display: none;">
+      <button class="back-btn" id="zone-back-btn"></button>
+      <canvas id="zone-canvas"></canvas>
+      <section id="zone-video-container" style="display: none">
+        <video loop controls autoplay id="zone-video"></video>
+      </section>
+    </div>
+
+    <!-- Selfie Mode Section (Hidden by default) -->
+    <div id="Selfie-section" class="Selfie-section" style="display: none;">
       <canvas id="canvas"></canvas>
       
       <!-- Photo Display Canvas (Hidden by default) -->
