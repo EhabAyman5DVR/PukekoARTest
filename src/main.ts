@@ -8,14 +8,12 @@ import {
 // Import the AR handler
 
 
-// Store the current session
+// Store session and media stream
 let currentSession: CameraKitSession;
 let mediaStream: MediaStream;
 let isCameraActive = false;
 let { LensesGroup }: any = {}; // Replace 'any' with the appropriate type if available
-const liveRenderTarget = document.getElementById(
-  'canvas'
-) as HTMLCanvasElement;
+const liveRenderTarget = document.getElementById('canvas') as HTMLCanvasElement;
 
 // Zones UI functionality
 document.addEventListener('DOMContentLoaded', async () => {
@@ -23,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const zonesSection = document.getElementById('zones-section');
   const zonesCloseBtn = document.getElementById('zones-close-btn');
   const homeSection = document.getElementById('home-section');
+  const selfieBackBtn = document.getElementById('selfie-back-btn');
 
   // Initialize Camera Kit
   await initCameraKit();
@@ -42,15 +41,72 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  // Handle selfie back button click
+  selfieBackBtn?.addEventListener('click', () => {
+    const selfieSection = document.getElementById('Selfie-section');
+    if (homeSection && selfieSection) {
+      selfieSection.style.display = 'none';
+      homeSection.style.display = 'flex';
+    }
+  });
+
   // Handle zone button clicks
   const zoneButtons = document.querySelectorAll('.zone-btn');
+  const zoneContentSection = document.getElementById('zone-content-section');
+  const zoneBackBtn = document.getElementById('zone-back-btn');
+
+  // Map of zone names to lens indices
+  const zoneLensMap: { [key: string]: number } = {
+    sky: 1,
+    treat: 2,
+    care: 3,
+    use: 4,
+    capture: 5,
+    sea: 6
+  };
+
+  // Handle back button click
+  zoneBackBtn?.addEventListener('click', () => {
+    if (zoneContentSection && zonesSection) {
+      // Move canvas back to selfie section
+      const selfieSection = document.getElementById('Selfie-section');
+      if (selfieSection && liveRenderTarget) {
+        selfieSection.appendChild(liveRenderTarget);
+      }
+      zoneContentSection.style.display = 'none';
+      zonesSection.style.display = 'flex';
+    }
+  });
+
+  // Set up zone-specific camera
+  async function initZoneCamera(zoneName: string) {
+    try {
+      const lensIndex = zoneLensMap[zoneName];
+      if (lensIndex !== undefined && LensesGroup.lenses[lensIndex]) {
+        await currentSession.applyLens(LensesGroup.lenses[lensIndex]);
+        await setCameraKitSource(currentSession);
+        console.log(`Applied lens for zone: ${zoneName}`);
+      }
+    } catch (error) {
+      console.error('Failed to initialize zone camera:', error);
+    }
+  }
+
   zoneButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', async (e) => {
       const zone = (e.currentTarget as HTMLElement).dataset.zone;
-      console.log(`Selected zone: ${zone}`);
-      currentSession.applyLens(LensesGroup.lenses[1]);
-       setCameraKitSource(currentSession);
-      // Add zone-specific functionality here
+      if (zone && zonesSection && zoneContentSection) {
+        // Move canvas to zone content section and ensure it's visible
+        if (liveRenderTarget) {
+          liveRenderTarget.style.display = 'block';
+          zoneContentSection.appendChild(liveRenderTarget);
+        }
+        // Initialize camera with new lens
+        await initZoneCamera(zone);
+        // Show the zone content
+        zonesSection.style.display = 'none';
+        zoneContentSection.style.display = 'flex';
+      }
     });
   });
 
@@ -200,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Wire up home buttons
   const arBtn = document.getElementById('ar-btn');
   const homeSection = document.getElementById('home-section');
-  const cameraSection = document.getElementById('camera-section');
+  const cameraSection = document.getElementById('Selfie-section');
 
   if (arBtn && homeSection && cameraSection) {
     arBtn.addEventListener('click', async () => {

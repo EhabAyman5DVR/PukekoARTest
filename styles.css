@@ -14,6 +14,98 @@ body {
     overflow-y: auto;
 }
 
+/* Zone Content Section Styles */
+.zone-content-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#canvas {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scaleX(-1);
+    display: block;
+    background: #000000;
+    z-index: 1101;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.back-btn {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: url('/Back_Zones.png') center/contain no-repeat;
+    border: none;
+    cursor: pointer;
+    z-index: 1102;
+    transition: transform 0.2s ease;
+}
+
+.back-btn:hover {
+    transform: scale(1.1);
+}
+
+.back-btn:active {
+    transform: scale(0.95);
+}
+
+#zone-video-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1101;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+#zone-back-btn:hover {
+    transform: scale(1.1);
+}
+
+#zone-back-btn:active {
+    transform: scale(0.95);
+}
+
+#zone-video-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1101;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* CameraKit Section */
+.Selfie-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Splash screen and loader styles */
 body::before {
     content: "";
@@ -21,8 +113,10 @@ body::before {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh; /* fallback */
-    height: 100dvh; /* mobile browsers full viewport */
+    height: 100vh;
+    /* fallback */
+    height: 100dvh;
+    /* mobile browsers full viewport */
     background: url('/Splash.png') center center no-repeat;
     background-size: cover;
     z-index: 2000;
@@ -72,14 +166,14 @@ body.splash-hidden::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-   /* justify-content: center;*/
-   /* padding: 20px;*/
+    /* justify-content: center;*/
+    /* padding: 20px;*/
 }
 
 .zones-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-   /* gap: 20px;*/
+    /* gap: 20px;*/
     width: 100%;
     max-width: 600px;
     padding: 9px;
@@ -92,7 +186,8 @@ body.splash-hidden::before {
 .zone-btn {
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* Makes the button square */
+    padding-bottom: 100%;
+    /* Makes the button square */
     border: none;
     background: none;
     cursor: pointer;
@@ -118,7 +213,7 @@ body.splash-hidden::before {
     color: white;
     font-size: 24px;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .zone-btn:hover img {
@@ -138,28 +233,8 @@ body.splash-hidden::before {
     z-index: 1001;
 }
 
-/* Model Preview Section */
-.model-preview-section {
-    flex: 1;
-    padding: 20px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-.model-preview-section h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: bold;
-}
-
 /* CameraKit Section */
-.camera-section {
+.Selfie-section {
     position: fixed;
     top: 0;
     left: 0;
@@ -186,7 +261,9 @@ body.splash-hidden::before {
 }
 
 /* Ensure splash always covers home until hidden */
-body:not(.splash-hidden) #home-section { display: none !important; }
+body:not(.splash-hidden) #home-section {
+    display: none !important;
+}
 
 .home-content {
     width: 100%;
@@ -243,16 +320,23 @@ body:not(.splash-hidden) #home-section { display: none !important; }
     .home-section {
         padding: 20px;
     }
+
     .home-heading {
         margin-bottom: 30px;
     }
+
     .home-cards {
         gap: 20px;
     }
 }
 
-.home-card:hover { transform: scale(0.98); }
-.home-card:active { transform:  scale(0.96); }
+.home-card:hover {
+    transform: scale(0.98);
+}
+
+.home-card:active {
+    transform: scale(0.96);
+}
 
 .home-card:focus,
 .home-card:focus-visible,
@@ -261,18 +345,18 @@ body:not(.splash-hidden) #home-section { display: none !important; }
     box-shadow: none;
 }
 
-.home-card img { display: block; width: 100%; height: auto; max-height: 30vh; object-fit: contain; }
-
-
-
-/* Hide other sections when camera is active */
-.camera-section[style*="display: flex"] ~ .model-preview-section,
-.camera-section[style*="display: flex"] ~ .model-viewer-section {
-    display: none !important;
+.home-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 30vh;
+    object-fit: contain;
 }
 
+
+
 /* Ensure camera section takes full screen on all devices */
-.camera-section[style*="display: flex"] {
+.Selfie-section[style*="display: flex"] {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -339,7 +423,7 @@ video {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .camera-section {
+    .Selfie-section {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -348,33 +432,33 @@ video {
         z-index: 1000 !important;
         background: #000 !important;
     }
-    
+
     #canvas {
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) scaleX(-1) !important;
     }
-    
-  
-    
+
+
+
     .model-container {
         padding: 15px;
         margin-bottom: 30px;
     }
-    
+
     model-viewer {
         height: 300px;
     }
-    
-    .camera-section h2 {
+
+    .Selfie-section h2 {
         font-size: 16px;
         padding: 8px 16px;
     }
 }
 
 @media (max-width: 480px) {
-    .camera-section {
+    .Selfie-section {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -383,18 +467,18 @@ video {
         z-index: 1000 !important;
         background: #000 !important;
     }
-    
+
     #canvas {
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) scaleX(-1) !important;
     }
-    
+
     model-viewer {
         height: 250px;
     }
-    
+
     .model-container {
         padding: 10px;
         margin-bottom: 20px;
@@ -424,7 +508,7 @@ video {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .action-btn.primary {
@@ -459,7 +543,7 @@ video {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background:  url('/Capture-Btn.png') center center no-repeat;
+    background: url('/Capture-Btn.png') center center no-repeat;
     border: none;
     cursor: pointer;
     display: flex;
