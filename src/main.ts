@@ -2,7 +2,7 @@ import {
   bootstrapCameraKit,
   CameraKitSession,
   createMediaStreamSource,
-  //Transform2D,
+  Transform2D,
 } from '@snap/camera-kit';
 
 // Import the AR handler
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const lensIndex = zoneLensMap[zoneName];
       if (lensIndex !== undefined && LensesGroup.lenses[lensIndex]) {
         await currentSession.applyLens(LensesGroup.lenses[lensIndex]);
-        await setCameraKitSource(currentSession);
+        await setCameraKitSource(currentSession, false); // Use back camera for zone content
         console.log(`Applied lens for zone: ${zoneName}`);
       }
     } catch (error) {
@@ -236,15 +236,22 @@ async function initCameraKit() {
 
 //@ts-ignore
 async function setCameraKitSource(
-  session: CameraKitSession) {
+  session: CameraKitSession,
+  isFront: boolean = true) {
 
   mediaStream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "user" }
+    video: { facingMode: isFront ? "user" : "environment" }
   });
 
-  const source = createMediaStreamSource(mediaStream, { cameraType: 'user' });
+  const source = createMediaStreamSource(mediaStream, { 
+    cameraType: isFront ? 'user' : 'environment' 
+  });
 
   await session.setSource(source);
+  // Only apply mirror transform for front camera
+  if (isFront) {
+    source.setTransform(Transform2D.MirrorX);
+  }
   session.play();
 }
 
@@ -264,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cameraSection.style.display = 'flex';
       // await initCameraKit();
       currentSession.applyLens(LensesGroup.lenses[0]);
-      await setCameraKitSource(currentSession);
+      await setCameraKitSource(currentSession, true); // Use front camera for selfie section
 
     });
   }

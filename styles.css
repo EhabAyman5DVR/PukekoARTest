@@ -32,7 +32,8 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scaleX(-1);
+    transform: translate(-50%, -50%);
+    /* scaleX(-1);*/
     display: block;
     background: #000000;
     z-index: 1101;
@@ -390,7 +391,8 @@ body:not(.splash-hidden) #home-section {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scaleX(-1);
+    transform: translate(-50%, -50%);
+    /*scaleX(-1);*/
     display: block;
     background: black;
     z-index: 1;
@@ -400,7 +402,8 @@ body:not(.splash-hidden) #home-section {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scaleX(-1);
+    transform: translate(-50%, -50%);
+    /*scaleX(-1);*/
     display: block;
     background: black;
     z-index: 999;
@@ -437,7 +440,8 @@ video {
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
-        transform: translate(-50%, -50%) scaleX(-1) !important;
+        transform: translate(-50%, -50%)
+            /*scaleX(-1) !important;*/
     }
 
 
@@ -472,7 +476,8 @@ video {
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
-        transform: translate(-50%, -50%) scaleX(-1) !important;
+        transform: translate(-50%, -50%)
+            /* scaleX(-1) !important;*/
     }
 
     model-viewer {
