@@ -253,6 +253,7 @@ async function setCameraKitSource(
     source.setTransform(Transform2D.MirrorX);
   }
   session.play();
+  source.setRenderSize(1080, 1920);
 }
 
 
