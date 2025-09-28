@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       selfieSection.style.display = 'none';
       homeSection.style.display = 'flex';
       currentSession.pause();
+      // Stop all tracks in the media stream
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+      }
     }
   });
 
