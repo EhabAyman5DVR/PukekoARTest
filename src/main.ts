@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Map of zone names to lens indices
   const zoneLensMap: { [key: string]: number } = {
-    sky: 1,
-    treat: 2,
+    sky: 5,
+    treat: 4,
     care: 3,
-    use: 4,
-    capture: 5,
-    sea: 6
+    use: 2,
+    capture: 1,
+    sea: 0
   };
 
   // Handle back button click
@@ -77,6 +77,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       const selfieSection = document.getElementById('Selfie-section');
       if (selfieSection && liveRenderTarget) {
         selfieSection.appendChild(liveRenderTarget);
+      }
+      //currentSession.pause();
+      currentSession.removeLens();
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
       }
       zoneContentSection.style.display = 'none';
       zonesSection.style.display = 'flex';
@@ -88,7 +93,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const lensIndex = zoneLensMap[zoneName];
       if (lensIndex !== undefined && LensesGroup.lenses[lensIndex]) {
-        await currentSession.applyLens(LensesGroup.lenses[lensIndex]);
+        await currentSession.applyLens(LensesGroup.lenses[lensIndex]).then(() => {
+          currentSession.unmute();
+        });
+
         await setCameraKitSource(currentSession, false); // Use back camera for zone content
         console.log(`Applied lens for zone: ${zoneName}`);
       }
