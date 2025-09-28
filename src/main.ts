@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (homeSection && selfieSection) {
       selfieSection.style.display = 'none';
       homeSection.style.display = 'flex';
+      currentSession.pause();
     }
   });
 
@@ -207,28 +208,27 @@ function closePhoto() {
 
 async function initCameraKit() {
   // if (isCameraActive) return; // Prevent multiple initializations
-
+  let loadedLensesCount: number = 0;
   try {
     const cameraKit = await bootstrapCameraKit({ apiToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzU2NDAyNDMwLCJzdWIiOiI1NzUwMjVjOS0xYjBlLTQ5ZjgtOWMzMy1mM2ZhN2M5ZDE0YTh-UFJPRFVDVElPTn41MDQ2Njc1Mi01N2MwLTQ5MGUtODc3MS1jYTA5NjNlZDIxNjEifQ.3sbRD47P17pMhnb3Sl5_12XA0xtSeBglslHFZNxr5r8' });
     currentSession = await cameraKit.createSession({ liveRenderTarget });
     { LensesGroup = await cameraKit.lensRepository.loadLensGroups(['c2b104f9-6b4e-4d68-bd16-6ff2c95feaeb']) };
-    console.log(LensesGroup.lenses);
-    currentSession.applyLens(LensesGroup.lenses[0]).then(() => {
-      console.log('Lens applied');
+    console.log(LensesGroup.lenses.length);
+    LensesGroup.lenses.forEach((lens: any) => {
+      currentSession.applyLens(lens).then(() => {
+        loadedLensesCount++;
+        if (loadedLensesCount === LensesGroup.lenses.length) {
+          console.log(`Loaded ${loadedLensesCount} lenses`);
+          // Hide loader immediately and start splash fade-out
+          hideSplashLoader();
+          document.body.classList.add('splash-hidden');
+          const homeSection = document.getElementById('home-section');
+          if (homeSection) homeSection.style.display = 'flex';
+        }
+      });
     });
-    currentSession.applyLens(LensesGroup.lenses[1]).then(() => {
-      // Hide loader immediately and start splash fade-out
-      hideSplashLoader();
-      document.body.classList.add('splash-hidden');
-      const homeSection = document.getElementById('home-section');
-      if (homeSection) homeSection.style.display = 'flex';
-    });
-
     // Remove fullscreen class after lens is loaded
     liveRenderTarget.classList.remove('fullscreen');
-
-    //await setCameraKitSource(currentSession);
-    //isCameraActive = true;
   } catch (error) {
     console.error('Failed to initialize CameraKit:', error);
   }
@@ -243,8 +243,8 @@ async function setCameraKitSource(
     video: { facingMode: isFront ? "user" : "environment" }
   });
 
-  const source = createMediaStreamSource(mediaStream, { 
-    cameraType: isFront ? 'user' : 'environment' 
+  const source = createMediaStreamSource(mediaStream, {
+    cameraType: isFront ? 'user' : 'environment'
   });
 
   await session.setSource(source);
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
       homeSection.style.display = 'none';
       cameraSection.style.display = 'flex';
       // await initCameraKit();
-      currentSession.applyLens(LensesGroup.lenses[0]);
+      currentSession.applyLens(LensesGroup.lenses[6]);
       await setCameraKitSource(currentSession, true); // Use front camera for selfie section
 
     });
