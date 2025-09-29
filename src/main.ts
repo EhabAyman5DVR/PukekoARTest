@@ -1,12 +1,29 @@
 import {
   bootstrapCameraKit,
   CameraKitSession,
-  createMediaStreamSource,
-  Transform2D,
+  createMediaStreamSource,  // Use zoneLensMap from the top level scopesform2D,
+  Transform2D
 } from '@snap/camera-kit';
 
 // Import the AR handler
 
+// Map of zone names to lens indices
+const zoneLensMap: { [key: string]: number } = {
+  sky: 0,
+  treat: 2,
+  care: 2,
+  use: 4,
+  capture: 1,
+  sea: 3,
+  selfie: 5  // Selfie lens index
+};
+
+// Function to get the zone from URL parameters
+function getZoneFromURL(): string | null {
+  const params = new URLSearchParams(window.location.search);
+  const zone = params.get('zone')?.toLowerCase();
+  return zone && zoneLensMap.hasOwnProperty(zone) ? zone : null;
+}
 
 // Store session and media stream
 let currentSession: CameraKitSession;
@@ -60,15 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const zoneContentSection = document.getElementById('zone-content-section');
   const zoneBackBtn = document.getElementById('zone-back-btn');
 
-  // Map of zone names to lens indices
-  const zoneLensMap: { [key: string]: number } = {
-    sky: 0,
-    treat: 2,
-    care: 2,
-    use: 4,
-    capture: 1,
-    sea: 3
-  };
+  // Using zoneLensMap from the top level scope
 
   // Handle back button click
   zoneBackBtn?.addEventListener('click', () => {
@@ -219,12 +228,35 @@ function closePhoto() {
 }
 
 async function initCameraKit() {
-  // if (isCameraActive) return; // Prevent multiple initializations
   let loadedLensesCount: number = 0;
   try {
     const cameraKit = await bootstrapCameraKit({ apiToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzU2NDAyNDMwLCJzdWIiOiI1NzUwMjVjOS0xYjBlLTQ5ZjgtOWMzMy1mM2ZhN2M5ZDE0YTh-UFJPRFVDVElPTn41MDQ2Njc1Mi01N2MwLTQ5MGUtODc3MS1jYTA5NjNlZDIxNjEifQ.3sbRD47P17pMhnb3Sl5_12XA0xtSeBglslHFZNxr5r8' });
     currentSession = await cameraKit.createSession({ liveRenderTarget });
     { LensesGroup = await cameraKit.lensRepository.loadLensGroups(['c2b104f9-6b4e-4d68-bd16-6ff2c95feaeb']) };
+    
+    // Check if we're accessing a specific lens through URL
+    const zoneParam = getZoneFromURL();
+    if (zoneParam) {
+      // Hide all sections except splash and show only the canvas
+      document.querySelectorAll('section:not(#splash-section)').forEach(section => {
+        (section as HTMLElement).style.display = 'none';
+      });
+      if (liveRenderTarget) {
+        liveRenderTarget.style.display = 'block';
+        document.body.appendChild(liveRenderTarget);
+      }
+      // Apply the specific lens and start camera
+      const lensIndex = zoneLensMap[zoneParam];
+      await currentSession.applyLens(LensesGroup.lenses[lensIndex]).then(() => {
+        // Hide splash only after lens is loaded
+        hideSplashLoader();
+        document.body.classList.add('splash-hidden');
+      });
+      await setCameraKitSource(currentSession, zoneParam === 'selfie');
+      return; // Exit early as we don't need to load other lenses
+    }
+
+    // Normal initialization for the full app
     console.log(LensesGroup.lenses.length);
     LensesGroup.lenses.forEach((lens: any) => {
       currentSession.applyLens(lens).then(() => {
@@ -283,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
       homeSection.style.display = 'none';
       cameraSection.style.display = 'flex';
       // await initCameraKit();
-      currentSession.applyLens(LensesGroup.lenses[5]);
+      currentSession.applyLens(LensesGroup.lenses[zoneLensMap.selfie]);
       await setCameraKitSource(currentSession, true); // Use front camera for selfie section
 
     });
