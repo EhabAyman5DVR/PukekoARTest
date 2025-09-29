@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Map of zone names to lens indices
   const zoneLensMap: { [key: string]: number } = {
-    sky: 5,
-    treat: 4,
-    care: 3,
-    use: 2,
+    sky: 0,
+    treat: 2,
+    care: 2,
+    use: 4,
     capture: 1,
-    sea: 0
+    sea: 3
   };
 
   // Handle back button click
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
       homeSection.style.display = 'none';
       cameraSection.style.display = 'flex';
       // await initCameraKit();
-      currentSession.applyLens(LensesGroup.lenses[6]);
+      currentSession.applyLens(LensesGroup.lenses[5]);
       await setCameraKitSource(currentSession, true); // Use front camera for selfie section
 
     });
