@@ -9,13 +9,14 @@ import {
 
 // Map of zone names to lens indices
 const zoneLensMap: { [key: string]: number } = {
-  sky: 0,
-  treat: 2,
-  care: 2,
-  use: 4,
-  capture: 1,
-  sea: 3,
-  selfie: 5  // Selfie lens index
+    sky: 1,
+    treat: 3,
+    care: 0,
+    use: 5,
+    capture: 2,
+    sea: 4,
+    selfie: 6  // Selfie lens index
+
 };
 
 // Function to get the zone from URL parameters
@@ -165,6 +166,10 @@ function capturePhoto() {
 
           // Show the photo canvas, hide the main canvas
           photoCanvas.style.display = 'block';
+          photoCanvas.style.width = '100%';
+          photoCanvas.style.height = '100%';
+          photoCanvas.style.objectFit = 'contain';
+          photoCanvas.style.position = 'absolute';  // Match live canvas positioning if it uses absolute
           liveRenderTarget.style.display = 'none';
         };
         img.src = capturedImageData;
