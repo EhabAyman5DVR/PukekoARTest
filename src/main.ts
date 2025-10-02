@@ -15,7 +15,7 @@ const zoneLensMap: { [key: string]: number } = {
     use: 5,
     capture: 2,
     sea: 4,
-    selfie: 6  // Selfie lens index
+    selfie: 5  // Selfie lens index
 
 };
 
@@ -65,11 +65,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (homeSection && selfieSection) {
       selfieSection.style.display = 'none';
       homeSection.style.display = 'flex';
+
       currentSession.pause();
       // Stop all tracks in the media stream
       if (mediaStream) {
         mediaStream.getTracks().forEach(track => track.stop());
       }
+
+      // Reset photo preview state
+      const photoCanvas = document.getElementById('photo-canvas');
+      const screenshotBtn = document.getElementById('screenshot-btn');
+      const downloadBtn = document.getElementById('download-btn');
+      const closeBtn = document.getElementById('close-btn');
+
+      if (photoCanvas) {
+        photoCanvas.style.display = 'none';
+      }
+      if (liveRenderTarget) {
+        liveRenderTarget.style.display = 'block';
+      }
+      if (screenshotBtn) screenshotBtn.style.display = 'flex';
+      if (downloadBtn) downloadBtn.style.display = 'none';
+      if (closeBtn) closeBtn.style.display = 'none';
+      
+      // Clear captured image data
+      capturedImageData = null;
     }
   });
 
