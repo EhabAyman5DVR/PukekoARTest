@@ -9,13 +9,13 @@ import {
 
 // Map of zone names to lens indices
 const zoneLensMap: { [key: string]: number } = {
-    sky: 1,
+    sky: 2,
     treat: 3,
-    care: 0,
+    care: 1,
     use: 5,
-    capture: 2,
+    capture: 0,
     sea: 4,
-    selfie: 5  // Selfie lens index
+    selfie: 6  // Selfie lens index
 
 };
 
