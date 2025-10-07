@@ -9,13 +9,13 @@ import {
 
 // Map of zone names to lens indices
 const zoneLensMap: { [key: string]: number } = {
-    sky: 2,
-    treat: 3,
-    care: 1,
-    use: 5,
-    capture: 0,
-    sea: 4,
-    selfie: 6  // Selfie lens index
+  sky: 2,
+  treat: 3,
+  care: 1,
+  use: 5,
+  capture: 0,
+  sea: 4,
+  selfie: 6  // Selfie lens index
 
 };
 
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (screenshotBtn) screenshotBtn.style.display = 'flex';
       if (downloadBtn) downloadBtn.style.display = 'none';
       if (closeBtn) closeBtn.style.display = 'none';
-      
+
       // Clear captured image data
       capturedImageData = null;
     }
@@ -163,11 +163,9 @@ function capturePhoto() {
     console.error('Canvas not found');
     return;
   }
-
   try {
     // Capture the current canvas content
     capturedImageData = liveRenderTarget.toDataURL('image/png');
-
     // Get the photo canvas and display the captured photo
     const photoCanvas = document.getElementById('photo-canvas') as HTMLCanvasElement;
     if (photoCanvas) {
@@ -175,6 +173,10 @@ function capturePhoto() {
       photoCanvas.width = liveRenderTarget.width;
       photoCanvas.height = liveRenderTarget.height;
 
+      const selfieBackBtn = document.getElementById('selfie-back-btn');
+      if (selfieBackBtn) {
+        selfieBackBtn.style.display = 'none';
+      }
       // Get the 2D context and draw the captured photo
       const ctx = photoCanvas.getContext('2d');
       if (ctx) {
@@ -245,6 +247,11 @@ function closePhoto() {
   // Show capture button again
   const screenshotBtn = document.getElementById('screenshot-btn');
   if (screenshotBtn) screenshotBtn.style.display = 'flex';
+  // Reset selfie back button visibility
+  const selfieBackBtn = document.getElementById('selfie-back-btn');
+  if (selfieBackBtn) {
+    selfieBackBtn.style.display = 'flex';
+  }
 
   // Restart the camera with lens
   if (currentSession && isCameraActive) {
@@ -258,15 +265,25 @@ async function initCameraKit() {
     const cameraKit = await bootstrapCameraKit({ apiToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzU2NDAyNDMwLCJzdWIiOiI1NzUwMjVjOS0xYjBlLTQ5ZjgtOWMzMy1mM2ZhN2M5ZDE0YTh-UFJPRFVDVElPTn41MDQ2Njc1Mi01N2MwLTQ5MGUtODc3MS1jYTA5NjNlZDIxNjEifQ.3sbRD47P17pMhnb3Sl5_12XA0xtSeBglslHFZNxr5r8' });
     currentSession = await cameraKit.createSession({ liveRenderTarget });
     { LensesGroup = await cameraKit.lensRepository.loadLensGroups(['c2b104f9-6b4e-4d68-bd16-6ff2c95feaeb']) };
-    
+
     // Check if we're accessing a specific lens through URL
     const zoneParam = getZoneFromURL();
     if (zoneParam) {
+      console.log(`Loading lens for zone: ${zoneParam}`);
       // Hide all sections except splash and show only the canvas
       document.querySelectorAll('section:not(#splash-section)').forEach(section => {
         (section as HTMLElement).style.display = 'none';
       });
-      if (liveRenderTarget) {
+      if (zoneParam === 'selfie') {
+        const selfieSection = document.getElementById('Selfie-section');
+        if (selfieSection) {
+          selfieSection.style.display = 'flex';
+          const selfieBackBtn = document.getElementById('selfie-back-btn');
+          if (selfieBackBtn)
+            selfieBackBtn.style.display = 'none';
+        }
+      }
+      else if (liveRenderTarget) {
         liveRenderTarget.style.display = 'block';
         document.body.appendChild(liveRenderTarget);
       }
