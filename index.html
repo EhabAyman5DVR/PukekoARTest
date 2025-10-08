@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
   <title>WaterCare - Pukeko AR</title>
-  <script type="module" crossorigin src="/PukekoARTest/assets/index-CLHHxt6a.js"></script>
+  <script type="module" crossorigin src="/PukekoARTest/assets/index-Cpb1aezN.js"></script>
   <link rel="stylesheet" crossorigin href="/PukekoARTest/assets/index-CjobbFWo.css">
 </head>
 
@@ -16,28 +18,14 @@
 
   <!-- Main Container -->
   <div class="app-container">
-    <!-- Home Section -->
-    <div id="home-section" class="home-section" style="display: none;">
-      <div class="home-content">
-        <img class="home-heading" src="/PukekoARTest/assets/ChooseOption-Dt9uw7Ni.png" alt="Choose an option">
-        <div class="home-cards">
-          <button id="qa-btn" class="home-card">
-            <img src="/PukekoARTest/assets/Q_A-D-osjwd8.png" alt="Pukeko Interactive Q&A" />
-          </button>
-          <button id="ar-btn" class="home-card">
-            <img src="/PukekoARTest/assets/AR%20Selfie-D2TSu0Te.png" alt="AR Selfie with Pukeko" />
-          </button>
-        </div>
-      </div>
-    </div>
     <!-- Zones Section (Hidden by default) -->
     <div id="zones-section" class="zones-section" style="display: none;">
       <div class="zones-grid">
         <button class="zone-btn" data-zone="sky">
           <img src="/PukekoARTest/assets/Sky-COk9TKCA.png" alt="Sky Zone">
         </button>
-        <button class="zone-btn" data-zone="treat">
-          <img src="/PukekoARTest/assets/Treat-BJihKIQA.png" alt="Treat Zone">
+        <button class="zone-btn" data-zone="capture">
+          <img src="/PukekoARTest/assets/Capture-BNQnyFyM.png" alt="Capture Zone">
         </button>
         <button class="zone-btn" data-zone="care">
           <img src="/PukekoARTest/assets/Care-BrreNytF.png" alt="Care Zone">
@@ -45,8 +33,8 @@
         <button class="zone-btn" data-zone="use">
           <img src="/PukekoARTest/assets/Use-DFHUQ607.png" alt="Use Zone">
         </button>
-        <button class="zone-btn" data-zone="capture">
-          <img src="/PukekoARTest/assets/Capture-BNQnyFyM.png" alt="Capture Zone">
+        <button class="zone-btn" data-zone="treat">
+          <img src="/PukekoARTest/assets/Treat-BJihKIQA.png" alt="Treat Zone">
         </button>
         <button class="zone-btn" data-zone="sea">
           <img src="/PukekoARTest/assets/Sea-CBLNjihk.png" alt="Sea Zone">
@@ -66,22 +54,22 @@
     <!-- Selfie Mode Section (Hidden by default) -->
     <div id="Selfie-section" class="Selfie-section" style="display: none;">
       <canvas id="canvas"></canvas>
-      
+
       <!-- Photo Display Canvas (Hidden by default) -->
       <canvas id="photo-canvas" style="display: none;"></canvas>
-      
+
       <!-- Screenshot Button -->
       <button id="screenshot-btn" class="screenshot-btn" title="Take Screenshot">
       </button>
-      
+
       <!-- Download Button (Hidden by default) -->
       <button id="download-btn" class="download-btn" style="display: none;">
       </button>
-      
+
       <!-- Close Button (Hidden by default) -->
       <button id="close-btn" class="close-btn" style="display: none;">
       </button>
-      
+
       <section id="video-container" style="display: none">
         <video loop controls autoplay id="video"></video>
       </section>
@@ -89,4 +77,5 @@
   </div>
 
 </body>
+
 </html>
