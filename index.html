@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
   <title>WaterCare - Pukeko AR</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -15,29 +17,14 @@
 
   <!-- Main Container -->
   <div class="app-container">
-    <!-- Home Section -->
-    <div id="home-section" class="home-section" style="display: none;">
-      <div class="home-content">
-        <img class="home-heading" src="/ChooseOption.png" alt="Choose an option">
-        <div class="home-cards">
-          <button id="qa-btn" class="home-card">
-            <img src="/Q&A.png" alt="Pukeko Interactive Q&A" />
-          </button>
-          <button id="ar-btn" class="home-card">
-            <img src="/AR Selfie.png" alt="AR Selfie with Pukeko" />
-          </button>
-        </div>
-      </div>
-    </div>
     <!-- Zones Section (Hidden by default) -->
     <div id="zones-section" class="zones-section" style="display: none;">
-      <button class="close-btn" id="zones-close-btn"></button>
       <div class="zones-grid">
         <button class="zone-btn" data-zone="sky">
           <img src="/Zones/Sky.png" alt="Sky Zone">
         </button>
-        <button class="zone-btn" data-zone="treat">
-          <img src="/Zones/Treat.png" alt="Treat Zone">
+        <button class="zone-btn" data-zone="capture">
+          <img src="/Zones/Capture.png" alt="Capture Zone">
         </button>
         <button class="zone-btn" data-zone="care">
           <img src="/Zones/Care.png" alt="Care Zone">
@@ -45,8 +32,8 @@
         <button class="zone-btn" data-zone="use">
           <img src="/Zones/Use.png" alt="Use Zone">
         </button>
-        <button class="zone-btn" data-zone="capture">
-          <img src="/Zones/Capture.png" alt="Capture Zone">
+        <button class="zone-btn" data-zone="treat">
+          <img src="/Zones/Treat.png" alt="Treat Zone">
         </button>
         <button class="zone-btn" data-zone="sea">
           <img src="/Zones/Sea.png" alt="Sea Zone">
@@ -65,24 +52,23 @@
 
     <!-- Selfie Mode Section (Hidden by default) -->
     <div id="Selfie-section" class="Selfie-section" style="display: none;">
-      <button class="back-btn" id="selfie-back-btn"></button>
       <canvas id="canvas"></canvas>
-      
+
       <!-- Photo Display Canvas (Hidden by default) -->
       <canvas id="photo-canvas" style="display: none;"></canvas>
-      
+
       <!-- Screenshot Button -->
       <button id="screenshot-btn" class="screenshot-btn" title="Take Screenshot">
       </button>
-      
+
       <!-- Download Button (Hidden by default) -->
       <button id="download-btn" class="download-btn" style="display: none;">
       </button>
-      
+
       <!-- Close Button (Hidden by default) -->
       <button id="close-btn" class="close-btn" style="display: none;">
       </button>
-      
+
       <section id="video-container" style="display: none">
         <video loop controls autoplay id="video"></video>
       </section>
@@ -91,4 +77,5 @@
 
   <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>

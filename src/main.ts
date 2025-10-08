@@ -35,64 +35,11 @@ const liveRenderTarget = document.getElementById('canvas') as HTMLCanvasElement;
 
 // Zones UI functionality
 document.addEventListener('DOMContentLoaded', async () => {
-  const qaButton = document.getElementById('qa-btn');
   const zonesSection = document.getElementById('zones-section');
-  const zonesCloseBtn = document.getElementById('zones-close-btn');
-  const homeSection = document.getElementById('home-section');
-  const selfieBackBtn = document.getElementById('selfie-back-btn');
 
   // Initialize Camera Kit
   await initCameraKit();
-  // Show zones when Q&A button is clicked
-  qaButton?.addEventListener('click', () => {
-    if (homeSection && zonesSection) {
-      homeSection.style.display = 'none';
-      zonesSection.style.display = 'flex';
-    }
-  });
-
-  // Hide zones when close button is clicked
-  zonesCloseBtn?.addEventListener('click', () => {
-    if (homeSection && zonesSection) {
-      zonesSection.style.display = 'none';
-      homeSection.style.display = 'flex';
-    }
-  });
-
-  // Handle selfie back button click
-  selfieBackBtn?.addEventListener('click', () => {
-    const selfieSection = document.getElementById('Selfie-section');
-    if (homeSection && selfieSection) {
-      selfieSection.style.display = 'none';
-      homeSection.style.display = 'flex';
-
-      currentSession.removeLens();
-      // Stop all tracks in the media stream
-      if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
-      }
-
-      // Reset photo preview state
-      const photoCanvas = document.getElementById('photo-canvas');
-      const screenshotBtn = document.getElementById('screenshot-btn');
-      const downloadBtn = document.getElementById('download-btn');
-      const closeBtn = document.getElementById('close-btn');
-
-      if (photoCanvas) {
-        photoCanvas.style.display = 'none';
-      }
-      if (liveRenderTarget) {
-        liveRenderTarget.style.display = 'block';
-      }
-      if (screenshotBtn) screenshotBtn.style.display = 'flex';
-      if (downloadBtn) downloadBtn.style.display = 'none';
-      if (closeBtn) closeBtn.style.display = 'none';
-
-      // Clear captured image data
-      capturedImageData = null;
-    }
-  });
-
+ 
   // Handle zone button clicks
   const zoneButtons = document.querySelectorAll('.zone-btn');
   const zoneContentSection = document.getElementById('zone-content-section');
@@ -308,8 +255,8 @@ async function initCameraKit() {
           // Hide loader immediately and start splash fade-out
           hideSplashLoader();
           document.body.classList.add('splash-hidden');
-          const homeSection = document.getElementById('home-section');
-          if (homeSection) homeSection.style.display = 'flex';
+          const zonesSection = document.getElementById('zones-section');
+          if (zonesSection) zonesSection.style.display = 'flex';
         }
       });
     });
@@ -345,23 +292,6 @@ async function setCameraKitSource(
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-
-
-  // Wire up home buttons
-  const arBtn = document.getElementById('ar-btn');
-  const homeSection = document.getElementById('home-section');
-  const cameraSection = document.getElementById('Selfie-section');
-
-  if (arBtn && homeSection && cameraSection) {
-    arBtn.addEventListener('click', async () => {
-      homeSection.style.display = 'none';
-      cameraSection.style.display = 'flex';
-      // await initCameraKit();
-      currentSession.applyLens(LensesGroup.lenses[zoneLensMap.selfie]);
-      await setCameraKitSource(currentSession, true); // Use front camera for selfie section
-
-    });
-  }
 
   // Add capture/download/close listeners
   const screenshotBtn = document.getElementById('screenshot-btn');
